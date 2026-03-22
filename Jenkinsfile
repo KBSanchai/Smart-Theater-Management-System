@@ -5,47 +5,28 @@ pipeline {
         nodejs 'nodejs'
     }
 
-    environment {
-        APP_DIR = 'cinemate-system-main'
-    }
-
     stages {
 
-        stage('Checkout') {
+        stage('Install') {
             steps {
-                echo 'Code already checked out by Jenkins'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                dir("${APP_DIR}") {
+                dir('cinemate-system-main') {
                     bat 'npm install'
                 }
             }
         }
 
-        stage('Build Project') {
+        stage('Build') {
             steps {
-                dir("${APP_DIR}") {
+                dir('cinemate-system-main') {
                     bat 'npm run build'
                 }
             }
         }
 
-        stage('Test (Optional)') {
+        stage('Test') {
             steps {
-                dir("${APP_DIR}") {
-                    bat 'npm test || echo No tests found'
-                }
-            }
-        }
-
-        stage('Serve App (Optional)') {
-            steps {
-                dir("${APP_DIR}") {
-                    bat 'npm install -g serve'
-                    bat 'serve -s dist -l 3000'
+                dir('cinemate-system-main') {
+                    bat 'npm test || echo No tests'
                 }
             }
         }
@@ -53,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build & Deployment Successful 🚀'
+            echo 'Build Success 🚀'
         }
         failure {
-            echo '❌ Build Failed'
+            echo 'Build Failed ❌'
         }
     }
 }
