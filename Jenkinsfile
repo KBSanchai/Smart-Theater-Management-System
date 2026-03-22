@@ -9,19 +9,25 @@ pipeline {
 
         stage('Install') {
             steps {
-                bat 'npm install'
+                dir('cinemate-system-main') {
+                    bat 'npm install'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                bat 'npm run build'
+                dir('cinemate-system-main') {
+                    bat 'npm run build'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'npm test || echo No tests'
+                dir('cinemate-system-main') {
+                    bat 'npm test || echo No tests'
+                }
             }
         }
     }
